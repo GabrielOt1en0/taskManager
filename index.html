@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gab_T task manager</title>
+        <style>
+            *{
+                box-sizing:border-box;
+                font-family:Arial, Helvetica, sans-serif;
+                color:white;
+            }
+            .container{
+                width:100%;
+                min-height:100vh;
+                min-width: fit-content;
+                background:#ffffff;
+                display:flex;
+                flex-direction:column;
+                align-items:center;             
+            }
+            .card{
+                width:300px;
+                max-height: fit-content;
+                background:#000000;
+                border:3px solid #000;
+                box-shadow:12px 12px 0 #000;
+                overflow:hidden;
+                transform:translate(-6px,-6px);
+                transition:.2s;
+            }
+
+                .card:hover{
+                transform:translate(-10px,-10px);
+                box-shadow:10px 10px 0 #000;
+            }
+
+                .head{
+                font-size:14px;
+                font-weight:900;
+                color:#000;
+                background:#fff;
+                padding:5px 12px;
+                border-bottom:3px solid #000;
+            }
+
+                .content{
+                padding:8px 12px;
+            }
+
+                /* BUTTON */
+
+                .button{
+                color:#000;
+                padding:5px 10px;
+                border:3px solid #000;
+                box-shadow:3px 3px 0 #000;
+                background:#ffffff;
+                cursor:pointer;
+                transition:.15s;
+            }
+
+                .button:hover{
+                transform:translate(2px,2px);
+                box-shadow:1px 1px 0 #000;
+                background:#69f04e;
+            }
+
+                .h1{
+                color: #f74c9c;
+                text-align: left;
+                cursor: pointer;
+            }
+
+                .h1:hover{
+                transform:translate(2px,2px);
+                }
+            #landing{
+                opacity:0;
+                transition:opacity 1.5s ease;
+                width:100%;
+                position:relative;
+                z-index:1;
+                }
+
+                #landing.show{
+                opacity:1;
+                }
+
+                #landing::before{
+                content:"";
+                position:absolute;
+                inset:0;
+                background-image:radial-gradient(circle at 1px 1px, rgb(0, 0, 0) 1px, transparent 0);
+                background-size:25px 25px;
+                animation:movePattern 40s linear infinite;
+                z-index:-1;
+                }
+
+                @keyframes movePattern{
+                from{background-position:0 0;}
+                to{background-position:500px 500px;}
+                }
+                input{
+                    color: #000;
+                }
+                .finlist{
+                    list-style-type:none;
+                }
+        </style>    
+    </head>
+    <body>
+        <div class="container">
+            <div id="landing" class="show">
+                <div class="card">
+                    <div class="head">Welcome!</div>
+                    <div class="content">
+                        <label>Enter tasks</label>
+                        <input type="text" id="userInput" placeholder="Enter Tasks"><br>
+                        <button class="button" id="myButton">Add to list</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class = "head">Tasks</div>  
+                    <div class="content">
+                        <ul id="displayArea"></ul>
+                        <button class="button" id="completeBtn">Mark as complete!</button>
+                    </div> 
+                </div>
+                 <div class="card">
+                    <div class = "head">Completed Tasks</div>  
+                    <div class="content">
+                        <ul class="finlist" id="displayAreafn"></ul>
+                        <button class="button" id="refreshBtn">Refresh!</button>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <script>
+                const tasks=[];
+                const completedTasks= [];
+                const inputField=document.getElementById('userInput');
+                const inputButton = document.getElementById('myButton');
+                const completeButton = document.getElementById('completeBtn');
+                const refreshButton = document.getElementById('refreshBtn');
+
+                const displaySpace = document.getElementById('displayArea');
+                const finishedTasks = document.getElementById('displayAreafn');
+
+                function rendertasks(){
+                    displaySpace.innerHTML=tasks.map(task=>`<li>${task}</li>`).join("");
+                    finishedTasks.innerHTML=completedTasks.map(task=>`<li>${task}</li>`).join("~");
+
+                }
+
+                inputButton.addEventListener('click', () => {
+                    const task = inputField.value.trim();
+                    if(task === ""){
+                        alert("Enter tasks");
+                        return;
+                    }
+                    tasks.push(task);
+                    inputField.value="";
+                    rendertasks()
+                });
+
+                completeButton.addEventListener('click', () => {
+                    if (tasks.length===0){
+                        alert("No pending tasks");
+                        return;
+                    }
+                    const completedTask =tasks.shift();
+                    completedTasks.push(completedTask);
+                    rendertasks();
+
+
+                });
+
+                refreshButton.addEventListener('click', () => {
+                    completedTasks.length=0;
+                    rendertasks();
+                });       
+        </script> 
+    </body>
+</html>
