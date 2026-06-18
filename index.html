@@ -34,6 +34,24 @@
                 transform:translate(-10px,-10px);
                 box-shadow:10px 10px 0 #000;
             }
+                .card2{
+                justify-content: center;
+                align-items:center;
+                width:300px;
+                max-height: fit-content;
+                background:#000000;
+                border:3px solid #bf2b2b;
+                box-shadow:12px 12px 0 #ffffff;
+                overflow:hidden;
+                transform:translate(-6px,-6px);
+                transition:.2s;
+            }
+
+                .card2:hover{
+                transform:translate(-10px,-10px);
+                box-shadow:10px 10px 0 #000;
+                border:3px solid #69f04e;
+            }
 
                 .head{
                 font-size:14px;
@@ -107,7 +125,7 @@
                 .finlist{
                     list-style-type:none;
                 }
-        </style>    
+        </style>   
     </head>
     <body>
         <div class="container">
@@ -125,6 +143,7 @@
                     <div class="content">
                         <ul id="displayArea"></ul>
                         <button class="button" id="completeBtn">Mark as complete!</button>
+                        <button class="button" id="savetask">Save tasks!</button>
                     </div> 
                 </div>
                  <div class="card">
@@ -134,23 +153,45 @@
                         <button class="button" id="refreshBtn">Refresh!</button>
                     </div> 
                 </div>
+                <div class="card2">
+                <div class="head">Saved Tasks</div>
+                <div class="content">
+                    <ul id="saveArea"></ul>
+                    <button class="button" id="completeBtnS">Clear tasks!</button>
+                </div>
+
+                </div>
             </div>
         </div>
         <script>
                 const tasks=[];
+                const saved=[];
                 const completedTasks= [];
                 const inputField=document.getElementById('userInput');
                 const inputButton = document.getElementById('myButton');
                 const completeButton = document.getElementById('completeBtn');
                 const refreshButton = document.getElementById('refreshBtn');
-
+                const saveTaskButton = document.getElementById('savetask');
+                const completeButtonS = document.getElementById('completeBtnS');
+                
+   
                 const displaySpace = document.getElementById('displayArea');
                 const finishedTasks = document.getElementById('displayAreafn');
+                const savedTasks = document.getElementById("saveArea");
 
                 function rendertasks(){
                     displaySpace.innerHTML=tasks.map(task=>`<li>${task}</li>`).join("");
-                    finishedTasks.innerHTML=completedTasks.map(task=>`<li>${task}</li>`).join("~");
+                    finishedTasks.innerHTML=completedTasks.map(task=>`<li>${task}</li>`).join("~~~~~~");
+                    
+                }
 
+                function savetasks(){
+                    savedTasks.innerHTML=saved.map(task=>`<li>${task}</li>`).join("===================");
+                }
+
+                function rendercomplete_savedtask(){
+                    finishedTasks.innerHTML=completedTasks.map(task=>`<li>${task}</li>`).join("~~~~~~");
+                    
                 }
 
                 inputButton.addEventListener('click', () => {
@@ -161,7 +202,7 @@
                     }
                     tasks.push(task);
                     inputField.value="";
-                    rendertasks()
+                    rendertasks();
                 });
 
                 completeButton.addEventListener('click', () => {
@@ -172,14 +213,35 @@
                     const completedTask =tasks.shift();
                     completedTasks.push(completedTask);
                     rendertasks();
+                });
 
-
+                completeButtonS.addEventListener('click',() => {
+                    if (saved.length===0){
+                        alert("No saved tasks");
+                        return;
+                    }
+                    const comp=saved.shift();
+                    completedTasks.push(comp);
+                    saved.length=0;
+                    savetasks();
+                    rendertasks();
+                });
+                
+                saveTaskButton.addEventListener('click',()=>{
+                    if(tasks.length===0){
+                        alert("No tasks to be saved");
+                        return;
+                    }
+                    const savedTask = tasks.shift();
+                    saved.push(savedTask);
+                    savetasks(); 
+                    rendertasks();               
                 });
 
                 refreshButton.addEventListener('click', () => {
                     completedTasks.length=0;
                     rendertasks();
-                });       
+                });
         </script> 
     </body>
 </html>
