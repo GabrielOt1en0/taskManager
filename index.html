@@ -16,8 +16,8 @@
                 min-width: fit-content;
                 background:#ffffff;
                 display:flex;
-                flex-direction:column;
-                align-items:center;             
+                flex-direction:row;
+                justify-content:space-evenly;
             }
             .card{
                 width:300px;
@@ -28,11 +28,28 @@
                 overflow:hidden;
                 transform:translate(-6px,-6px);
                 transition:.2s;
+                gap: 10px;
             }
 
                 .card:hover{
                 transform:translate(-10px,-10px);
                 box-shadow:10px 10px 0 #000;
+            }
+            .cardsvd{
+                width:300px;
+                max-height: fit-content;
+                background:#000000;
+                border:3px solid #000;
+                box-shadow:12px 12px 0 #c21616;
+                overflow:hidden;
+                transform:translate(-6px,-6px);
+                transition:.2s;
+                gap:10px;
+
+            }
+            .cardsvd:hover{
+                transform:translate(-10px,-10px);
+                box-shadow:10px 10px 0 #69f04e;
             }
 
                 .head{
@@ -101,6 +118,11 @@
                 from{background-position:0 0;}
                 to{background-position:500px 500px;}
                 }
+                .card-grid{
+                    display:grid;
+                    grid-template-columns:repeat(2,1fr);
+                    gap:10px;
+                }
                 input{
                     color: #000;
                 }
@@ -112,6 +134,7 @@
     <body>
         <div class="container">
             <div id="landing" class="show">
+            <div class="card-grid">
                 <div class="card">
                     <div class="head">Welcome!</div>
                     <div class="content">
@@ -125,6 +148,7 @@
                     <div class="content">
                         <ul id="displayArea"></ul>
                         <button class="button" id="completeBtn">Mark as complete!</button>
+                        <button class = "button" id="saveTsk">Save Task for Later </button>
                     </div> 
                 </div>
                  <div class="card">
@@ -134,22 +158,35 @@
                         <button class="button" id="refreshBtn">Refresh!</button>
                     </div> 
                 </div>
+                <div class="cardsvd">
+                    <div class="head">Saved Tasks</div>
+                    <div class=" content">
+                        <ul class="svdlist" id="displayAreasv"></ul>
+                        <button class="button" id ="completeBtnsvd">Mark as complete!</button>
+                        <button class="button" id="refreshbtnsvd">Clear Saved Tasks</button>
+                    
+                    </div>
+                </div>
+               </div>
             </div>
         </div>
         <script>
                 const tasks=[];
                 const completedTasks= [];
+                const svdTasks =[];
                 const inputField=document.getElementById('userInput');
                 const inputButton = document.getElementById('myButton');
                 const completeButton = document.getElementById('completeBtn');
                 const refreshButton = document.getElementById('refreshBtn');
-
+                const saveButton = document.getElementById('saveTsk'); 
                 const displaySpace = document.getElementById('displayArea');
                 const finishedTasks = document.getElementById('displayAreafn');
+                const savedTasks = document.getElementById('displayAreasv');
 
                 function rendertasks(){
                     displaySpace.innerHTML=tasks.map(task=>`<li>${task}</li>`).join("");
                     finishedTasks.innerHTML=completedTasks.map(task=>`<li>${task}</li>`).join("~");
+                    savedTasks.innerHTML=svdTasks.map(task=>`<li>${task}</li>`).join("~");
 
                 }
 
@@ -179,7 +216,34 @@
                 refreshButton.addEventListener('click', () => {
                     completedTasks.length=0;
                     rendertasks();
-                });       
+                });     
+                
+                saveButton.addEventListener('click',()=>{
+                    if(tasks.length ===0){
+                        alert("No tasks to save");
+                        return;
+                    }
+                    const savedTask = tasks.shift();
+                    svdTasks.push(savedTask);
+                    rendertasks();
+
+                    });
+
+              refreshbtnsvd.addEventListener('click',()=>{
+                svdTasks.length = 0;
+                rendertasks();
+              });
+              completeBtnsvd.addEventListener('click',()=>{
+                if(svdTasks.length ===0){
+                    alert("No saved tasks to complete");
+                    return;
+                }
+                const completedSavedTask = svdTasks.shift();
+                completedTasks.push(completedSavedTask);
+                rendertasks();
+              });
+
+                
         </script> 
     </body>
 </html>
