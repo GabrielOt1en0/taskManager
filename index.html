@@ -31,7 +31,7 @@
                 gap: 10px;
             }
 
-                .card:hover{
+            .card:hover{
                 transform:translate(-10px,-10px);
                 box-shadow:10px 10px 0 #000;
             }
@@ -45,14 +45,13 @@
                 transform:translate(-6px,-6px);
                 transition:.2s;
                 gap:10px;
-
             }
             .cardsvd:hover{
                 transform:translate(-10px,-10px);
                 box-shadow:10px 10px 0 #69f04e;
             }
 
-                .head{
+            .head{
                 font-size:14px;
                 font-weight:900;
                 color:#000;
@@ -61,50 +60,51 @@
                 border-bottom:3px solid #000;
             }
 
-                .content{
+            .content{
                 padding:8px 12px;
             }
 
-                /* BUTTON */
+            /* BUTTON */
 
-                .button{
+            .button{
                 color:#000;
                 padding:5px 10px;
-                border:3px solid #000;
+                border:3px #000;
                 box-shadow:3px 3px 0 #000;
                 background:#ffffff;
                 cursor:pointer;
                 transition:.15s;
+                margin-top: 5px;
             }
 
-                .button:hover{
+            .button:hover{
                 transform:translate(2px,2px);
                 box-shadow:1px 1px 0 #000;
                 background:#69f04e;
             }
 
-                .h1{
+            .h1{
                 color: #f74c9c;
                 text-align: left;
                 cursor: pointer;
             }
 
-                .h1:hover{
+            .h1:hover{
                 transform:translate(2px,2px);
-                }
+            }
             #landing{
                 opacity:0;
                 transition:opacity 1.5s ease;
                 width:100%;
                 position:relative;
                 z-index:1;
-                }
+            }
 
-                #landing.show{
+            #landing.show{
                 opacity:1;
-                }
+            }
 
-                #landing::before{
+            #landing::before{
                 content:"";
                 position:absolute;
                 inset:0;
@@ -112,138 +112,200 @@
                 background-size:25px 25px;
                 animation:movePattern 40s linear infinite;
                 z-index:-1;
-                }
+            }
 
-                @keyframes movePattern{
+            @keyframes movePattern{
                 from{background-position:0 0;}
                 to{background-position:500px 500px;}
-                }
-                .card-grid{
-                    display:grid;
-                    grid-template-columns:repeat(2,1fr);
-                    gap:10px;
-                }
-                input{
-                    color: #000;
-                }
-                .finlist{
-                    list-style-type:none;
-                }
+            }
+            .card-grid{
+                display:grid;
+                grid-template-columns:repeat(2,1fr);
+                gap:10px;
+                padding: 20px;
+            }
+            input{
+                color: #000;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+            .finlist, .svdlist, .delayed, #displayArea {
+                list-style-type:none;
+                padding-left: 0;
+            }
+            li {
+                margin-bottom: 5px;
+            }
         </style>    
     </head>
     <body>
         <div class="container">
             <div id="landing" class="show">
-            <div class="card-grid">
-                <div class="card">
-                    <div class="head">Welcome!</div>
-                    <div class="content">
-                        <label>Enter tasks</label>
-                        <input type="text" id="userInput" placeholder="Enter Tasks"><br>
-                        <button class="button" id="myButton">Add to list</button>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="head">Welcome!</div>
+                        <div class="content">
+                            <label>Enter tasks</label>
+                            <input type="text" id="userInput" placeholder="Enter Tasks"><br>
+                            <label>Set task duration (hours)</label>
+                            <input type="number" id="taskduration" placeholder="Completion time in hours" min="0"><br>
+                            <button class="button" id="myButton">Add to list</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="head">Tasks</div>  
+                        <div class="content">
+                            <ul id="displayArea"></ul>
+                            <button class="button" id="completeBtn">Mark as complete!</button>
+                            <button class="button" id="saveTsk">Save Task for Later </button>
+                        </div> 
+                    </div>
+                    <div class="card">
+                        <div class="head">Completed Tasks</div>  
+                        <div class="content">
+                            <ul class="finlist" id="displayAreafn"></ul>
+                            <button class="button" id="refreshBtn">Refresh!</button>
+                        </div> 
+                    </div>
+                    <div class="cardsvd">
+                        <div class="head">Saved Tasks</div>
+                        <div class="content">
+                            <ul class="svdlist" id="displayAreasv"></ul>
+                            <button class="button" id="completeBtnsvd">Mark as complete!</button>
+                            <button class="button" id="refreshbtnsvd">Clear Saved Tasks</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="head">Delayed Tasks</div>  
+                        <div class="content">
+                            <ul class="delayed" id="displayAreaDl"></ul>
+                            <button class="button" id="refreshBtnDl">Clear Delayed Tasks!</button>
+                        </div> 
                     </div>
                 </div>
-                <div class="card">
-                    <div class = "head">Tasks</div>  
-                    <div class="content">
-                        <ul id="displayArea"></ul>
-                        <button class="button" id="completeBtn">Mark as complete!</button>
-                        <button class = "button" id="saveTsk">Save Task for Later </button>
-                    </div> 
-                </div>
-                 <div class="card">
-                    <div class = "head">Completed Tasks</div>  
-                    <div class="content">
-                        <ul class="finlist" id="displayAreafn"></ul>
-                        <button class="button" id="refreshBtn">Refresh!</button>
-                    </div> 
-                </div>
-                <div class="cardsvd">
-                    <div class="head">Saved Tasks</div>
-                    <div class=" content">
-                        <ul class="svdlist" id="displayAreasv"></ul>
-                        <button class="button" id ="completeBtnsvd">Mark as complete!</button>
-                        <button class="button" id="refreshbtnsvd">Clear Saved Tasks</button>
-                    
-                    </div>
-                </div>
-               </div>
             </div>
         </div>
         <script>
-                const tasks=[];
-                const completedTasks= [];
-                const svdTasks =[];
-                const inputField=document.getElementById('userInput');
-                const inputButton = document.getElementById('myButton');
-                const completeButton = document.getElementById('completeBtn');
-                const refreshButton = document.getElementById('refreshBtn');
-                const saveButton = document.getElementById('saveTsk'); 
-                const displaySpace = document.getElementById('displayArea');
-                const finishedTasks = document.getElementById('displayAreafn');
-                const savedTasks = document.getElementById('displayAreasv');
+            const tasks = [];
+            const completedTasks = [];
+            const svdTasks = [];
+            const incompleteTasks = [];
 
-                function rendertasks(){
-                    displaySpace.innerHTML=tasks.map(task=>`<li>${task}</li>`).join("");
-                    finishedTasks.innerHTML=completedTasks.map(task=>`<li>${task}</li>`).join("~");
-                    savedTasks.innerHTML=svdTasks.map(task=>`<li>${task}</li>`).join("~");
+            const inputField = document.getElementById('userInput');
+            const inputButton = document.getElementById('myButton');
+            const completeButton = document.getElementById('completeBtn');
+            const refreshButton = document.getElementById('refreshBtn');
+            const saveButton = document.getElementById('saveTsk'); 
+            const taskDurationInput = document.getElementById('taskduration');
+            const refreshbtnsvd = document.getElementById('refreshbtnsvd');
+            const refreshbtndl = document.getElementById('refreshBtnDl');
+            const completeBtnsvd = document.getElementById('completeBtnsvd');
 
+            const displaySpace = document.getElementById('displayArea');
+            const finishedTasks = document.getElementById('displayAreafn');
+            const savedTasks = document.getElementById('displayAreasv');
+            const delayedTasks = document.getElementById('displayAreaDl');
+
+            function rendertasks() {
+                displaySpace.innerHTML = tasks.map(t => `<li>${t.name}${t.duration ? ` (${t.duration}h duration)` : ''}</li>`).join("");
+                finishedTasks.innerHTML = completedTasks.map(t => `<li>${t.name}</li>`).join("");
+                savedTasks.innerHTML = svdTasks.map(t => `<li>${t.name}</li>`).join("");
+                delayedTasks.innerHTML = incompleteTasks.map(t => `<li>${t.name}</li>`).join("");
+            }
+
+            function clearTaskTimer(task) {
+                if (task && task.timerId) {
+                    clearTimeout(task.timerId);
+                }
+            }
+
+            inputButton.addEventListener('click', () => {
+                const taskName = inputField.value.trim();
+                const durationVal = parseFloat(taskDurationInput.value);
+
+                if (taskName === "") {
+                    alert("Enter tasks");
+                    return;
                 }
 
-                inputButton.addEventListener('click', () => {
-                    const task = inputField.value.trim();
-                    if(task === ""){
-                        alert("Enter tasks");
-                        return;
-                    }
-                    tasks.push(task);
-                    inputField.value="";
-                    rendertasks()
-                });
+                const newTask = {
+                    name: taskName,
+                    duration: !isNaN(durationVal) && durationVal > 0 ? durationVal : null,
+                    timerId: null
+                };
 
-                completeButton.addEventListener('click', () => {
-                    if (tasks.length===0){
-                        alert("No pending tasks");
-                        return;
-                    }
-                    const completedTask =tasks.shift();
-                    completedTasks.push(completedTask);
-                    rendertasks();
+                if (newTask.duration) {
+                    const durationMs = newTask.duration * 60 * 60 * 1000;
+                    
+                    newTask.timerId = setTimeout(() => {
+                        alert(`TASK NOT COMPLETE: "${newTask.name}" duration expired!`);
+                        
+                        // 1. Move task from active tasks array to incomplete tasks
+                        const index = tasks.indexOf(newTask);
+                        if (index > -1) {
+                            tasks.splice(index, 1);
+                        }
+                        
+                        // 2. Add to delayed list state
+                        incompleteTasks.push(newTask);
+                        
+                        // 3. Re-render UI to display under Delayed Tasks
+                        rendertasks();
+                    }, durationMs);
+                }
 
+                tasks.push(newTask);
+                inputField.value = "";
+                taskDurationInput.value = "";
+                rendertasks();
+            });
 
-                });
+            completeButton.addEventListener('click', () => {
+                if (tasks.length === 0) {
+                    alert("No pending tasks");
+                    return;
+                }
+                const completedTask = tasks.shift();
+                clearTaskTimer(completedTask);
+                completedTasks.push(completedTask);
+                rendertasks();
+            });
 
-                refreshButton.addEventListener('click', () => {
-                    completedTasks.length=0;
-                    rendertasks();
-                });     
-                
-                saveButton.addEventListener('click',()=>{
-                    if(tasks.length ===0){
-                        alert("No tasks to save");
-                        return;
-                    }
-                    const savedTask = tasks.shift();
-                    svdTasks.push(savedTask);
-                    rendertasks();
+            refreshButton.addEventListener('click', () => {
+                completedTasks.length = 0;
+                rendertasks();
+            });     
 
-                    });
+            saveButton.addEventListener('click', () => {
+                if (tasks.length === 0) {
+                    alert("No tasks to save");
+                    return;
+                }
+                const savedTask = tasks.shift();
+                clearTaskTimer(savedTask);
+                svdTasks.push(savedTask);
+                rendertasks();
+            });
 
-              refreshbtnsvd.addEventListener('click',()=>{
+            refreshbtnsvd.addEventListener('click', () => {
                 svdTasks.length = 0;
                 rendertasks();
-              });
-              completeBtnsvd.addEventListener('click',()=>{
-                if(svdTasks.length ===0){
+            });
+
+            refreshbtndl.addEventListener('click', () => {
+                incompleteTasks.length = 0;
+                rendertasks();
+            }); 
+
+            completeBtnsvd.addEventListener('click', () => {
+                if (svdTasks.length === 0) {
                     alert("No saved tasks to complete");
                     return;
                 }
                 const completedSavedTask = svdTasks.shift();
                 completedTasks.push(completedSavedTask);
                 rendertasks();
-              });
-
-                
+            });
         </script> 
     </body>
 </html>
