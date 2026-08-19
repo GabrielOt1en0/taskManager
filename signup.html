@@ -5,13 +5,13 @@
              *{
                 box-sizing:border-box;
                 font-family:Arial, Helvetica, sans-serif;
-                color:white;
+                color:rgb(0, 0, 0);
             }
             .container{
                 width:100%;
                 min-height:100vh;
                 min-width: fit-content;
-                background:#ffffff;
+                background:#000000;
                 display:flex;
                 flex-direction:column;
                 align-items:center;             
@@ -19,9 +19,9 @@
             .card{
                 width:300px;
                 max-height: fit-content;
-                background:#000000;
+                background:#ffffff;
                 border:3px solid #000;
-                box-shadow:12px 12px 0 #000;
+                box-shadow:12px 12px 0 #8609d3;
                 overflow:hidden;
                 transform:translate(-6px,-6px);
                 transition:.2s;
@@ -30,14 +30,14 @@
 
                 .card:hover{
                 transform:translate(-10px,-10px);
-                box-shadow:10px 10px 0 #d3149af6;
+                box-shadow:10px 10px 0 #012aa3;
             }
 
                 .head{
                 font-size:14px;
                 font-weight:900;
-                color:#000;
-                background:#fff;
+                color:#ffffff;
+                background:#000000;
                 padding:5px 12px;
                 border-bottom:3px solid #000;
             }
@@ -49,11 +49,11 @@
                 /* BUTTON */
 
                 input[type ="submit"]{
-                color:#000;
+                color:#ffffff;
                 padding:5px 10px;
                 border:3px solid #000;
                 box-shadow:3px 3px 0 #000;
-                background:#ffffff;
+                background:#000000;
                 cursor:pointer;
                 transition:.15s;
             }
@@ -89,7 +89,7 @@
                 content:"";
                 position:absolute;
                 inset:0;
-                background-image:radial-gradient(circle at 1px 1px, rgb(0, 0, 0) 1px, transparent 0);
+                background-image:radial-gradient(circle at 1px 1px, rgb(255, 255, 255) 1px, transparent 0);
                 background-size:25px 25px;
                 animation:movePattern 40s linear infinite;
                 z-index:-1;
@@ -100,7 +100,7 @@
                 to{background-position:500px 500px;}
                 }
                 input{
-                    color: #000;
+                    color: #000000;
                 }
  
         </style>
@@ -109,15 +109,15 @@
         <div class="container">
             <div id="landing" class="show">
                 <div class="card">
-                    <form action="lgn.php" method="post">
-                        <h1>LOGIN</h1>
+                    <form action="sign.php" method="post">
+                        <h1>SIGN UP</h1>
                         <label for="Username">Username:</label>
                         <input name = "Username" id="Username" type="text" required><br>
                         <label for="Password">Password</label>
                         <input name="Password" id="Password" type="password"><br>
-                        <input type = "submit" value="LOGIN" onclick="window.location.href='index.html';return false;">
-                    </form>
-                    <h3>New here? <a href="signup.html">Click here</a></h3>                        
+                        <input type = "submit" value="SIGNUP" onclick="window.location.href='index.html';return false;">
+                    </form>  
+                    <h3>Already a user? <a href="login.html">Click here</a></h3>               
                 </div>
             </div>    
         </div> 
