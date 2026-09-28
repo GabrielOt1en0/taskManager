@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+=<!DOCTYPE HTML>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -148,7 +148,9 @@
                             <label>Enter tasks</label>
                             <input type="text" id="userInput" placeholder="Enter Tasks"><br>
                             <label>Set task duration (hours)</label>
-                            <input type="number" id="taskduration" placeholder="Completion time in hours" min="0"><br>
+                            <input type="number" id="taskduration" placeholder="Completion time in hours" min="0">
+                            <label>Set task duration (minutes)</label>
+                            <input type="number" id="taskdurationm" placeholder="Completion time in minutes" min="0"><br>
                             <button class="button" id="myButton">Add to list</button>
                         </div>
                     </div>
@@ -197,6 +199,7 @@
             const refreshButton = document.getElementById('refreshBtn');
             const saveButton = document.getElementById('saveTsk'); 
             const taskDurationInput = document.getElementById('taskduration');
+            const taskDurationInputm=document.getElementById('taskdurationm');
             const refreshbtnsvd = document.getElementById('refreshbtnsvd');
             const refreshbtndl = document.getElementById('refreshBtnDl');
             const completeBtnsvd = document.getElementById('completeBtnsvd');
@@ -207,7 +210,8 @@
             const delayedTasks = document.getElementById('displayAreaDl');
 
             function rendertasks() {
-                displaySpace.innerHTML = tasks.map(t => `<li>${t.name}${t.duration ? ` (${t.duration}h duration)` : ''}</li>`).join("");
+                // Now uses the formatted durationText instead of just hours
+                displaySpace.innerHTML = tasks.map(t => `<li>${t.name}${t.durationText ? ` (${t.durationText})` : ''}</li>`).join("");
                 finishedTasks.innerHTML = completedTasks.map(t => `<li>${t.name}</li>`).join("");
                 savedTasks.innerHTML = svdTasks.map(t => `<li>${t.name}</li>`).join("");
                 delayedTasks.innerHTML = incompleteTasks.map(t => `<li>${t.name}</li>`).join("");
@@ -221,42 +225,55 @@
 
             inputButton.addEventListener('click', () => {
                 const taskName = inputField.value.trim();
-                const durationVal = parseFloat(taskDurationInput.value);
+                
+                // Parse both inputs, default to 0 if left blank
+                const hoursVal = parseFloat(taskDurationInput.value) || 0;
+                const minutesVal = parseFloat(taskDurationInputm.value) || 0;
 
                 if (taskName === "") {
                     alert("Enter tasks");
                     return;
                 }
 
+                // Calculate total duration in milliseconds
+                const totalDurationMs = (hoursVal * 60 * 60 * 1000) + (minutesVal * 60 * 1000);
+
+                // Create a readable string for the UI (e.g., "1h 30m duration")
+                let displayDuration = "";
+                if (hoursVal > 0) displayDuration += `${hoursVal}h `;
+                if (minutesVal > 0) displayDuration += `${minutesVal}m`;
+                displayDuration = displayDuration.trim();
+                if (displayDuration) displayDuration += " duration";
+
                 const newTask = {
                     name: taskName,
-                    duration: !isNaN(durationVal) && durationVal > 0 ? durationVal : null,
+                    durationMs: totalDurationMs > 0 ? totalDurationMs : null,
+                    durationText: displayDuration !== "" ? displayDuration : null,
                     timerId: null
                 };
 
-                if (newTask.duration) {
-                    const durationMs = newTask.duration * 60 * 60 * 1000;
-                    
+                // Setup timer using the combined milliseconds
+                if (newTask.durationMs) {
                     newTask.timerId = setTimeout(() => {
                         alert(`TASK NOT COMPLETE: "${newTask.name}" duration expired!`);
                         
-                        // 1. Move task from active tasks array to incomplete tasks
                         const index = tasks.indexOf(newTask);
                         if (index > -1) {
                             tasks.splice(index, 1);
                         }
                         
-                        // 2. Add to delayed list state
                         incompleteTasks.push(newTask);
-                        
-                        // 3. Re-render UI to display under Delayed Tasks
                         rendertasks();
-                    }, durationMs);
+                    }, newTask.durationMs);
                 }
 
                 tasks.push(newTask);
+                
+                // Clear all input fields
                 inputField.value = "";
                 taskDurationInput.value = "";
+                taskDurationInputm.value = "";
+                
                 rendertasks();
             });
 
